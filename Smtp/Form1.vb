@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.FileIO
 Public Class Form1
-    Public Sub loadForm(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub loadForm(sender As Object, e As EventArgs) Handles MyBase.Load
         With CbRegion      
             .Items.Add("Choose Region")
             .Items.Add("email-smtp.us-east-1.amazonaws.com")
