@@ -63,9 +63,9 @@ Partial Class Form1
         Me.LblRegion.AutoSize = true
         Me.LblRegion.Location = New System.Drawing.Point(21, 23)
         Me.LblRegion.Name = "LblRegion"
-        Me.LblRegion.Size = New System.Drawing.Size(44, 15)
+        Me.LblRegion.Size = New System.Drawing.Size(47, 15)
         Me.LblRegion.TabIndex = 2
-        Me.LblRegion.Text = "Region"
+        Me.LblRegion.Text = "Region:"
         '
         'TxtFrom
         '
@@ -150,18 +150,18 @@ Partial Class Form1
         Me.LblAccessKey.AutoSize = true
         Me.LblAccessKey.Location = New System.Drawing.Point(275, 23)
         Me.LblAccessKey.Name = "LblAccessKey"
-        Me.LblAccessKey.Size = New System.Drawing.Size(73, 15)
+        Me.LblAccessKey.Size = New System.Drawing.Size(76, 15)
         Me.LblAccessKey.TabIndex = 13
-        Me.LblAccessKey.Text = "AccessKeyID"
+        Me.LblAccessKey.Text = "AccessKeyID:"
         '
         'LblSecretKey
         '
         Me.LblSecretKey.AutoSize = true
         Me.LblSecretKey.Location = New System.Drawing.Point(275, 93)
         Me.LblSecretKey.Name = "LblSecretKey"
-        Me.LblSecretKey.Size = New System.Drawing.Size(94, 15)
+        Me.LblSecretKey.Size = New System.Drawing.Size(97, 15)
         Me.LblSecretKey.TabIndex = 14
-        Me.LblSecretKey.Text = "AccessSecretKey"
+        Me.LblSecretKey.Text = "AccessSecretKey:"
         '
         'CheckBox1
         '
@@ -170,7 +170,7 @@ Partial Class Form1
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(210, 19)
         Me.CheckBox1.TabIndex = 15
-        Me.CheckBox1.Text = "Check To Get Access Key From .cvs"
+        Me.CheckBox1.Text = "Check To Get Access Key From .csv"
         Me.CheckBox1.UseVisualStyleBackColor = true
         '
         'TxtFilePath
