@@ -128,5 +128,8 @@ Public Class Form1
         End If
         Return yesFlag
     End Function
-   
+
+    Private Sub TxtBody_GotFocus(sender As Object, e As EventArgs) Handles TxtBody.GotFocus
+        TxtBody.Text = ""
+    End Sub
 End Class
