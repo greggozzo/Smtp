@@ -23,7 +23,7 @@ Public Class Form1
             .Items.Add("email-smtp.us-gov-west-1.amazonaws.com") 
         End With
         CbRegion.SelectedIndex = 0  
-
+        TxtBody.Text = "This is a Test"
     End Sub
     Private Sub ButtonSend_Click(sender As Object, e As EventArgs) Handles ButtonSend.Click
         Dim username As String = TxtKey.Text
@@ -38,6 +38,22 @@ Public Class Form1
         If CheckBox1.Checked = True Then
             username= getUserName()
             password= getUserPass()
+        End If
+        If CbRegion.Text = "Choose Region" Then
+            MsgBox("Please Select Region")
+            Exit Sub
+        End If
+        If username = "" Then
+            MsgBox("User Name Is Empty")
+            Exit Sub
+        End If
+        If password = "" Then
+            MsgBox("Access Secret KeyIs Empty")
+            Exit Sub
+        End If
+
+        if checkString(sTo, sFrom, sSubject, sBody) > 0 Then
+            Exit Sub
         End If
 
     Using client = New System.Net.Mail.SmtpClient(host, port)
@@ -92,5 +108,25 @@ Public Class Form1
     Private Sub TxtFilePath_GotFocus() Handles TxtFilePath.GotFocus
     TxtFilePath.Text = ""
     End Sub
+    Private Function checkString(sTo As String, sFrom As String, sSubject As String, sBody As String)
+        Dim yesFlag As Integer = 0
+        If sTo = "" Then
+            MsgBox("Please Enter To Address")
+            yesFlag +=1
+        End If
+        If sFrom = "" Then
+            MsgBox("Please Enter From Address")
+            yesFlag +=1
+        End If   
+        If sSubject = "" Then
+            MsgBox("Please Enter Subject")
+            yesFlag +=1
+        End If
+        If sBody = "" Then
+            MsgBox("Please Enter Body")
+            yesFlag +=1
+        End If
+        Return yesFlag
+    End Function
    
 End Class
