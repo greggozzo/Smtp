@@ -39,6 +39,7 @@ Partial Class Form1
         Me.LblSecretKey = New System.Windows.Forms.Label()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TxtFilePath = New System.Windows.Forms.TextBox()
+        Me.CheckSavePW = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout
         '
         'ButtonSend
@@ -181,11 +182,22 @@ Partial Class Form1
         Me.TxtFilePath.TabIndex = 16
         Me.TxtFilePath.Visible = false
         '
+        'CheckSavePW
+        '
+        Me.CheckSavePW.AutoSize = true
+        Me.CheckSavePW.Location = New System.Drawing.Point(275, 247)
+        Me.CheckSavePW.Name = "CheckSavePW"
+        Me.CheckSavePW.Size = New System.Drawing.Size(153, 19)
+        Me.CheckSavePW.TabIndex = 17
+        Me.CheckSavePW.Text = "Check to Save Password"
+        Me.CheckSavePW.UseVisualStyleBackColor = true
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(517, 450)
+        Me.Controls.Add(Me.CheckSavePW)
         Me.Controls.Add(Me.TxtFilePath)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.LblSecretKey)
@@ -227,4 +239,5 @@ End Sub
     Friend WithEvents LblSecretKey As Label
     Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents TxtFilePath As TextBox
+    Friend WithEvents CheckSavePW As CheckBox
 End Class
