@@ -1,8 +1,9 @@
 ﻿Imports System.IO
 Imports System
 Imports System.Text
-Imports System.Security.Cryptography
 Imports Microsoft.VisualBasic.FileIO
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 
 Public Class Form1
     Private Sub loadForm(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -29,9 +30,10 @@ Public Class Form1
         End With
         CbRegion.SelectedIndex = 0
         TxtBody.Text = "This is a Test"
+        ButtonSearch.Visible = False
+        TxtFilePath.Visible =False
     End Sub
     Private Sub ButtonSend_Click(sender As Object, e As EventArgs) Handles ButtonSend.Click
-
         Dim username As String = TxtKey.Text
         Dim password As String = TxtSecret.Text
         Dim host As String = CbRegion.SelectedItem
@@ -40,46 +42,35 @@ Public Class Form1
         Dim sTo As String = TxtTo.Text
         Dim sSubject As String = TxtSubject.Text
         Dim sBody As String = TxtBody.Text
-
         
         If CheckBox1.Checked = True Then
             username = getUserName()
             password = getUserPass()
         End If
-        If CbRegion.Text = "Choose Region" Then
-            MsgBox("Please Select Region")
-            Exit Sub
-        End If
-        If username = "" Then
-            MsgBox("User Name Is Empty")
-            Exit Sub
-        End If
-        If password = "" Then
-            MsgBox("Access Secret KeyIs Empty")
+
+        If CheckTextBoxEmpty(CbRegion.Text, username, password) > 0 Then
             Exit Sub
         End If
 
-        If checkString(sTo, sFrom, sSubject, sBody) > 0 Then
+        If CheckEmailStrings(sTo, sFrom, sSubject, sBody) > 0 Then
             Exit Sub
         End If
+
         Try
             Using client = New System.Net.Mail.SmtpClient(host, port)
-            client.Credentials = New System.Net.NetworkCredential(username, password)
-            client.EnableSsl = True
-            client.Send(sFrom, sTo, sSubject, sBody)
-             End Using
+                client.Credentials = New System.Net.NetworkCredential(username, password)
+                client.EnableSsl = True
+                'client.TargetName = "SMTPSVC/"
+                client.Send(sFrom, sTo, sSubject, sBody)
+            End Using
+            MsgBox("Sent successful!")
         Catch ex As Exception
             MessageBox.show(ex.Message)
         End Try
-        If CheckSavePW.Checked = True Then
-           SavePass(password)
-           SaveUser(username)
-        End If
-        
     End Sub
     Private Function getUserPass()
         Dim accesskey As String = ""
-        Dim filePath As String = TxtFilePath.Text     
+        Dim filePath As String = TxtFilePath.Text
         filePath = filePath.Replace("""", "").Trim()
         Using myReader As New TextFieldParser(filePath)
             myReader.TextFieldType = FieldType.Delimited
@@ -102,10 +93,9 @@ Public Class Form1
     Private Function getUserName()
         Dim accessID As String = ""
         Dim filePath As String = TxtFilePath.Text
-       
 
         filePath = filePath.Replace("""", "").Trim()
-        
+
         Using myReader As New TextFieldParser(filePath)
             myReader.TextFieldType = FieldType.Delimited
             myReader.SetDelimiters(",")
@@ -120,103 +110,80 @@ Public Class Form1
                 End Try
             End While
         End Using
-         
+
         Return accessID
 
     End Function
+
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         TxtFilePath.Visible = True
-        TxtFilePath.Text = "enter full file path here"
+        ButtonSearch.Visible = True
     End Sub
     Private Sub TxtFilePath_GotFocus() Handles TxtFilePath.GotFocus
         TxtFilePath.Text = ""
     End Sub
-    Private Function checkString(sTo As String, sFrom As String, sSubject As String, sBody As String)
-        Dim yesFlag As Integer = 0
+    Private Function CheckEmailStrings(sTo As String, sFrom As String, sSubject As String, sBody As String)
+        Dim count As Integer =0
         If sTo = "" Then
             MsgBox("Please Enter To Address")
-            yesFlag += 1
+            count = 1
+            Exit Function
         End If
         If sFrom = "" Then
-            MsgBox("Please Enter From Address")
-            yesFlag += 1
+            MsgBox("Please Enter From Address")  
+            count +=1
+            Exit Function
         End If
         If sSubject = "" Then
-            MsgBox("Please Enter Subject")
-            yesFlag += 1
+            MsgBox("Please Enter Subject")  
+            count +=1
+            Exit Function
         End If
         If sBody = "" Then
             MsgBox("Please Enter Body")
-            yesFlag += 1
+            count +=1
+            Exit Function
         End If
-        Return yesFlag
+       Return count
+    End Function
+    Private Function CheckTextBoxEmpty(CbRegion As String, userName As String, password As String)
+        Dim count As Integer =0
+        If CbRegion = "Choose Region" Then
+            MsgBox("Please Select Region")
+            count +=1
+            Exit Function
+        End If
+        If username = "" Then
+            MsgBox("User Name Is Empty")
+            count +=1
+            Exit Function
+        End If
+        If password = "" Then
+            MsgBox("Access Secret KeyIs Empty")
+            count +=1
+            Exit Function
+        End If
+        Return count
     End Function
 
     Private Sub TxtBody_GotFocus(sender As Object, e As EventArgs) Handles TxtBody.GotFocus
-        TxtBody.Text = ""
-    End Sub
-    Public Function EncryptString(ByVal inputString As String) As String
-    Dim memStream As MemoryStream = Nothing
-   
-    
-    Try
-        Dim key As Byte() = {}
-        Dim IV As Byte() = {12, 21, 43, 17, 57, 35, 67, 27}
-        Dim encryptKey As String = "aXb2uy4z"
-        key = Encoding.UTF8.GetBytes(encryptKey)
-        Dim byteInput As Byte() = Encoding.UTF8.GetBytes(inputString)
-        Dim provider As DESCryptoServiceProvider = New DESCryptoServiceProvider()
-        memStream = New MemoryStream()
-        Dim transform As ICryptoTransform = provider.CreateEncryptor(key, IV)
-        Dim cryptoStream As CryptoStream = New CryptoStream(memStream, transform, CryptoStreamMode.Write)
-        cryptoStream.Write(byteInput, 0, byteInput.Length)
-        cryptoStream.FlushFinalBlock()
-    Catch ex As Exception
-        MessageBox.Show(ex.Message)
-    End Try
-        
-    Return Convert.ToBase64String(memStream.ToArray())
-
-End Function
-    Public Function DecryptString(ByVal inputString As String) As String
-    Dim memStream As MemoryStream = Nothing
-
-    Try
-        Dim key As Byte() = {}
-        Dim IV As Byte() = {12, 21, 43, 17, 57, 35, 67, 27}
-        Dim encryptKey As String = "aXb2uy4z"
-        key = Encoding.UTF8.GetBytes(encryptKey)
-        Dim byteInput As Byte() = New Byte(inputString.Length - 1) {}
-        byteInput = Convert.FromBase64String(inputString)
-        Dim provider As DESCryptoServiceProvider = New DESCryptoServiceProvider()
-        memStream = New MemoryStream()
-        Dim transform As ICryptoTransform = provider.CreateDecryptor(key, IV)
-        Dim cryptoStream As CryptoStream = New CryptoStream(memStream, transform, CryptoStreamMode.Write)
-        cryptoStream.Write(byteInput, 0, byteInput.Length)
-        cryptoStream.FlushFinalBlock()
-    Catch ex As Exception
-        MessageBox.Show(ex.Message)
-    End Try
-
-    Dim encoding1 As Encoding = Encoding.UTF8
-    Return encoding1.GetString(memStream.ToArray())
-End Function
+TxtBody.Text = ""
+End Sub
+ 
     Private Function removeQuotes(filePath As string) As String
         filePath.Replace("""", "").Trim()
         Return filePath
     End Function
     Private Sub SaveUser(stringIn As String)
-         Dim savefilePath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-         Dim fileName As String = "SMTP-Setting.txt"
-           File.AppendAllText(savefilePath & "\" & fileName, vbCrLf & stringIn)
+        Dim savefilePath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        Dim fileName As String = "SMTP-Setting.txt"
+        File.AppendAllText(savefilePath & "\" & fileName, vbCrLf & stringIn)
     End Sub
-      Private Sub SavePass(stringIn As String)
-         Dim savefilePath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-         Dim fileName As String = "SMTP-Setting.txt"
-        Dim encryptedP As String = EncryptString(stringIn)
-           File.WriteAllText(savefilePath & "\" & fileName, encryptedP)
+  
+
+    Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click
+        If (OpenFileDialog1.ShowDialog() = DialogResult.OK) Then
+            TxtFilePath.Text = OpenFileDialog1.FileName
+        End If
     End Sub
-
-
-    ''''next check if file is empty and grab credentials and decrypt pass word''''
 End Class

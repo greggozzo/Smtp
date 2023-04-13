@@ -38,13 +38,17 @@ Partial Class Form1
         Me.LblAccessKey = New System.Windows.Forms.Label()
         Me.LblSecretKey = New System.Windows.Forms.Label()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.txtAttachment = New System.Windows.Forms.TextBox()
+        Me.lblAttach = New System.Windows.Forms.Label()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.ButtonSearch = New System.Windows.Forms.Button()
         Me.TxtFilePath = New System.Windows.Forms.TextBox()
-        Me.CheckSavePW = New System.Windows.Forms.CheckBox()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SuspendLayout
         '
         'ButtonSend
         '
-        Me.ButtonSend.Location = New System.Drawing.Point(21, 393)
+        Me.ButtonSend.Location = New System.Drawing.Point(21, 415)
         Me.ButtonSend.Name = "ButtonSend"
         Me.ButtonSend.Size = New System.Drawing.Size(75, 23)
         Me.ButtonSend.TabIndex = 0
@@ -174,31 +178,51 @@ Partial Class Form1
         Me.CheckBox1.Text = "Check To Get Access Key From .csv"
         Me.CheckBox1.UseVisualStyleBackColor = true
         '
+        'txtAttachment
+        '
+        Me.txtAttachment.Location = New System.Drawing.Point(22, 374)
+        Me.txtAttachment.Name = "txtAttachment"
+        Me.txtAttachment.Size = New System.Drawing.Size(222, 23)
+        Me.txtAttachment.TabIndex = 17
+        '
+        'lblAttach
+        '
+        Me.lblAttach.AutoSize = true
+        Me.lblAttach.Location = New System.Drawing.Point(21, 356)
+        Me.lblAttach.Name = "lblAttach"
+        Me.lblAttach.Size = New System.Drawing.Size(100, 15)
+        Me.lblAttach.TabIndex = 18
+        Me.lblAttach.Text = "Attachment Path:"
+        '
+        'ButtonSearch
+        '
+        Me.ButtonSearch.Location = New System.Drawing.Point(275, 196)
+        Me.ButtonSearch.Name = "ButtonSearch"
+        Me.ButtonSearch.Size = New System.Drawing.Size(222, 23)
+        Me.ButtonSearch.TabIndex = 20
+        Me.ButtonSearch.Text = "Search For CSV File"
+        Me.ButtonSearch.UseVisualStyleBackColor = true
+        '
         'TxtFilePath
         '
-        Me.TxtFilePath.Location = New System.Drawing.Point(275, 199)
+        Me.TxtFilePath.Location = New System.Drawing.Point(275, 225)
         Me.TxtFilePath.Name = "TxtFilePath"
-        Me.TxtFilePath.Size = New System.Drawing.Size(210, 23)
-        Me.TxtFilePath.TabIndex = 16
-        Me.TxtFilePath.Visible = false
+        Me.TxtFilePath.Size = New System.Drawing.Size(216, 23)
+        Me.TxtFilePath.TabIndex = 21
         '
-        'CheckSavePW
+        'OpenFileDialog1
         '
-        Me.CheckSavePW.AutoSize = true
-        Me.CheckSavePW.Location = New System.Drawing.Point(275, 247)
-        Me.CheckSavePW.Name = "CheckSavePW"
-        Me.CheckSavePW.Size = New System.Drawing.Size(153, 19)
-        Me.CheckSavePW.TabIndex = 17
-        Me.CheckSavePW.Text = "Check to Save Password"
-        Me.CheckSavePW.UseVisualStyleBackColor = true
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(517, 450)
-        Me.Controls.Add(Me.CheckSavePW)
         Me.Controls.Add(Me.TxtFilePath)
+        Me.Controls.Add(Me.ButtonSearch)
+        Me.Controls.Add(Me.lblAttach)
+        Me.Controls.Add(Me.txtAttachment)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.LblSecretKey)
         Me.Controls.Add(Me.LblAccessKey)
@@ -238,6 +262,10 @@ End Sub
     Friend WithEvents LblAccessKey As Label
     Friend WithEvents LblSecretKey As Label
     Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents txtAttachment As TextBox
+    Friend WithEvents lblAttach As Label
+    Friend WithEvents FolderBrowserDialog1 As FolderBrowserDialog
+    Friend WithEvents ButtonSearch As Button
     Friend WithEvents TxtFilePath As TextBox
-    Friend WithEvents CheckSavePW As CheckBox
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class
