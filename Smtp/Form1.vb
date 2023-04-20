@@ -38,10 +38,10 @@ Public Class Form1
         Dim password As String = TxtSecret.Text
         Dim host As String = CbRegion.SelectedItem
         Dim port As Integer = 587
-        Dim sFrom As String = TxtFrom.Text
+        Dim From As String = TxtFrom.Text
         Dim sTo As String = TxtTo.Text
-        Dim sSubject As String = TxtSubject.Text
-        Dim sBody As String = TxtBody.Text
+        Dim Subject As String = TxtSubject.Text
+        Dim Body As String = TxtBody.Text
         
         If CheckBox1.Checked = True Then
             username = getUserName()
@@ -52,16 +52,25 @@ Public Class Form1
             Exit Sub
         End If
 
-        If CheckEmailStrings(sTo, sFrom, sSubject, sBody) > 0 Then
+        If CheckEmailStrings(sTo, From, Subject, Body) > 0 Then
             Exit Sub
         End If
-
+        Dim mailMessage = New System.Net.Mail.MailMessage
+        mailMessage.From = New Net.Mail.MailAddress(From)
+        mailMessage.To.Add(sTo)
+        mailMessage.Subject = Subject
+        mailMessage.Body = Body
         Try
             Using client = New System.Net.Mail.SmtpClient(host, port)
                 client.Credentials = New System.Net.NetworkCredential(username, password)
                 client.EnableSsl = True
-                'client.TargetName = "SMTPSVC/"
-                client.Send(sFrom, sTo, sSubject, sBody)
+                If CheckDelegate.Checked Then
+                   Dim headerARN As String = TxtDelegate.Text 
+                   mailMessage.Headers.Add("X-SES-SOURCE-ARN", headerARN)
+                   mailMessage.Headers.Add("X-SES-FROM-ARN", headerARN)
+                   mailMessage.Headers.Add("X-SES-RETURN-PATH-ARN", headerARN)
+                End If                
+                client.Send(mailMessage)
             End Using
             MsgBox("Sent successful!")
         Catch ex As Exception
@@ -118,10 +127,7 @@ Public Class Form1
     Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
         TxtFilePath.Visible = True
         ButtonSearch.Visible = True
-    End Sub
-    Private Sub TxtFilePath_GotFocus() Handles TxtFilePath.GotFocus
-        TxtFilePath.Text = ""
-    End Sub
+    End Sub   
     Private Function CheckEmailStrings(sTo As String, sFrom As String, sSubject As String, sBody As String)
         Dim count As Integer =0
         If sTo = "" Then
@@ -165,10 +171,6 @@ Public Class Form1
         End If
         Return count
     End Function
-
-    Private Sub TxtBody_GotFocus(sender As Object, e As EventArgs) Handles TxtBody.GotFocus
-TxtBody.Text = ""
-End Sub
  
     Private Function removeQuotes(filePath As string) As String
         filePath.Replace("""", "").Trim()
@@ -184,6 +186,11 @@ End Sub
     Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click
         If (OpenFileDialog1.ShowDialog() = DialogResult.OK) Then
             TxtFilePath.Text = OpenFileDialog1.FileName
+        End If
+    End Sub
+    Private Sub TxtDelegate_GotFocus() Handles TxtDelegate.GotFocus
+        If TxtDelegate.Text = "Identity ARN"  Then
+            TxtDelegate.Text = ""
         End If
     End Sub
 End Class

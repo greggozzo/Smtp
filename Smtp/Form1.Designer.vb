@@ -44,6 +44,8 @@ Partial Class Form1
         Me.ButtonSearch = New System.Windows.Forms.Button()
         Me.TxtFilePath = New System.Windows.Forms.TextBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.CheckDelegate = New System.Windows.Forms.CheckBox()
+        Me.TxtDelegate = New System.Windows.Forms.TextBox()
         Me.SuspendLayout
         '
         'ButtonSend
@@ -214,11 +216,31 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'CheckDelegate
+        '
+        Me.CheckDelegate.AutoSize = true
+        Me.CheckDelegate.Location = New System.Drawing.Point(275, 260)
+        Me.CheckDelegate.Name = "CheckDelegate"
+        Me.CheckDelegate.Size = New System.Drawing.Size(133, 19)
+        Me.CheckDelegate.TabIndex = 22
+        Me.CheckDelegate.Text = "Use Delegate Sender"
+        Me.CheckDelegate.UseVisualStyleBackColor = true
+        '
+        'TxtDelegate
+        '
+        Me.TxtDelegate.Location = New System.Drawing.Point(275, 285)
+        Me.TxtDelegate.Name = "TxtDelegate"
+        Me.TxtDelegate.Size = New System.Drawing.Size(216, 23)
+        Me.TxtDelegate.TabIndex = 23
+        Me.TxtDelegate.Text = "Identity ARN"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(517, 450)
+        Me.Controls.Add(Me.TxtDelegate)
+        Me.Controls.Add(Me.CheckDelegate)
         Me.Controls.Add(Me.TxtFilePath)
         Me.Controls.Add(Me.ButtonSearch)
         Me.Controls.Add(Me.lblAttach)
@@ -268,4 +290,6 @@ End Sub
     Friend WithEvents ButtonSearch As Button
     Friend WithEvents TxtFilePath As TextBox
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents CheckDelegate As CheckBox
+    Friend WithEvents TxtDelegate As TextBox
 End Class
