@@ -64,6 +64,12 @@ Public Class Form1
             Using client = New System.Net.Mail.SmtpClient(host, port)
                 client.Credentials = New System.Net.NetworkCredential(username, password)
                 client.EnableSsl = True
+                If txtAttachment.Text IsNot "" Then
+                    Dim file As String = txtAttachment.Text                    
+                    Dim attachment As Net.Mail.Attachment 
+                    attachment = New Net.Mail.Attachment(file)
+                    mailMessage.Attachments.Add(attachment)
+                End If
                 If CheckDelegate.Checked Then
                    Dim headerARN As String = TxtDelegate.Text 
                    mailMessage.Headers.Add("X-SES-SOURCE-ARN", headerARN)
@@ -91,7 +97,7 @@ Public Class Form1
                     currentRow = myReader.ReadFields()
                     accesskey = currentRow(2)
                 Catch ex As Exception
-
+                    MsgBox("Could not get password from csv file.")
                 End Try
             End While
         End Using
@@ -115,7 +121,7 @@ Public Class Form1
                     currentRow = myReader.ReadFields()
                     accessID = currentRow(1)
                 Catch ex As Exception
-
+                    MsgBox("Could not get Username from csv file.")
                 End Try
             End While
         End Using
@@ -175,13 +181,7 @@ Public Class Form1
     Private Function removeQuotes(filePath As string) As String
         filePath.Replace("""", "").Trim()
         Return filePath
-    End Function
-    Private Sub SaveUser(stringIn As String)
-        Dim savefilePath As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
-        Dim fileName As String = "SMTP-Setting.txt"
-        File.AppendAllText(savefilePath & "\" & fileName, vbCrLf & stringIn)
-    End Sub
-  
+    End Function 
 
     Private Sub ButtonSearch_Click(sender As Object, e As EventArgs) Handles ButtonSearch.Click
         If (OpenFileDialog1.ShowDialog() = DialogResult.OK) Then
@@ -191,6 +191,12 @@ Public Class Form1
     Private Sub TxtDelegate_GotFocus() Handles TxtDelegate.GotFocus
         If TxtDelegate.Text = "Identity ARN"  Then
             TxtDelegate.Text = ""
+        End If
+    End Sub
+
+    Private Sub ButtonSearchFile_Click(sender As Object, e As EventArgs) Handles ButtonSearchFile.Click
+          If (OpenFileDialog1.ShowDialog() = DialogResult.OK) Then
+            txtAttachment.Text = OpenFileDialog1.FileName
         End If
     End Sub
 End Class

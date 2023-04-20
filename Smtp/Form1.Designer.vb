@@ -46,11 +46,12 @@ Partial Class Form1
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.CheckDelegate = New System.Windows.Forms.CheckBox()
         Me.TxtDelegate = New System.Windows.Forms.TextBox()
+        Me.ButtonSearchFile = New System.Windows.Forms.Button()
         Me.SuspendLayout
         '
         'ButtonSend
         '
-        Me.ButtonSend.Location = New System.Drawing.Point(21, 415)
+        Me.ButtonSend.Location = New System.Drawing.Point(21, 440)
         Me.ButtonSend.Name = "ButtonSend"
         Me.ButtonSend.Size = New System.Drawing.Size(75, 23)
         Me.ButtonSend.TabIndex = 0
@@ -182,7 +183,7 @@ Partial Class Form1
         '
         'txtAttachment
         '
-        Me.txtAttachment.Location = New System.Drawing.Point(22, 374)
+        Me.txtAttachment.Location = New System.Drawing.Point(22, 411)
         Me.txtAttachment.Name = "txtAttachment"
         Me.txtAttachment.Size = New System.Drawing.Size(222, 23)
         Me.txtAttachment.TabIndex = 17
@@ -234,11 +235,21 @@ Partial Class Form1
         Me.TxtDelegate.TabIndex = 23
         Me.TxtDelegate.Text = "Identity ARN"
         '
+        'ButtonSearchFile
+        '
+        Me.ButtonSearchFile.Location = New System.Drawing.Point(22, 382)
+        Me.ButtonSearchFile.Name = "ButtonSearchFile"
+        Me.ButtonSearchFile.Size = New System.Drawing.Size(222, 23)
+        Me.ButtonSearchFile.TabIndex = 24
+        Me.ButtonSearchFile.Text = "Search For File"
+        Me.ButtonSearchFile.UseVisualStyleBackColor = true
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7!, 15!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(517, 450)
+        Me.ClientSize = New System.Drawing.Size(517, 475)
+        Me.Controls.Add(Me.ButtonSearchFile)
         Me.Controls.Add(Me.TxtDelegate)
         Me.Controls.Add(Me.CheckDelegate)
         Me.Controls.Add(Me.TxtFilePath)
@@ -292,4 +303,5 @@ End Sub
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Friend WithEvents CheckDelegate As CheckBox
     Friend WithEvents TxtDelegate As TextBox
+    Friend WithEvents ButtonSearchFile As Button
 End Class
