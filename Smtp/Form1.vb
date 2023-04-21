@@ -1,10 +1,4 @@
-﻿Imports System.IO
-Imports System
-Imports System.Text
-Imports Microsoft.VisualBasic.FileIO
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
-
+﻿Imports Microsoft.VisualBasic.FileIO
 Public Class Form1
     Private Sub loadForm(sender As Object, e As EventArgs) Handles MyBase.Load
         With CbRegion
