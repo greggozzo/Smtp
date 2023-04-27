@@ -2,10 +2,10 @@
 Public Class Form1
     Private Sub loadForm(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim dt As New DataTable
+
         dt.Columns.AddRange(New DataColumn() {New DataColumn With {.ColumnName = "Endpoint", .DataType = GetType(String)} _
                                                 , New DataColumn With {.ColumnName = "Region", .DataType = GetType(String)} _
                                                 })
-
         
         dt.Rows.Add("Choose Region", "Choose Region")
         dt.Rows.Add("email-smtp.us-east-1.amazonaws.com", "US-East-1")
