@@ -1,27 +1,35 @@
 ﻿Imports Microsoft.VisualBasic.FileIO
 Public Class Form1
     Private Sub loadForm(sender As Object, e As EventArgs) Handles MyBase.Load
-        With CbRegion
-            .Items.Add("Choose Region")
-            .Items.Add("email-smtp.us-east-1.amazonaws.com")
-            .Items.Add("email-smtp.us-east-2.amazonaws.com")
-            .Items.Add("email-smtp.us-west-1.amazonaws.com")
-            .Items.Add("email-smtp.us-west-2.amazonaws.com")
-            .Items.Add("email-smtp.ap-south-1.amazonaws.com")
-            .Items.Add("email-smtp.ap-northeast-3.amazonaws.com")
-            .Items.Add("email-smtp.ap-northeast-2.amazonaws.com")
-            .Items.Add("email-smtp.ap-southeast-1.amazonaws.com")
-            .Items.Add("email-smtp.ap-southeast-2.amazonaws.com")
-            .Items.Add("email-smtp.ap-northeast-1.amazonaws.com")
-            .Items.Add("email-smtp.ca-central-1.amazonaws.com")
-            .Items.Add("email-smtp.eu-central-1.amazonaws.com")
-            .Items.Add("email-smtp.eu-west-1.amazonaws.com")
-            .Items.Add("email-smtp.eu-west-2.amazonaws.com")
-            .Items.Add("email-smtp.eu-west-3.amazonaws.com")
-            .Items.Add("email-smtp.eu-north-1.amazonaws.com")
-            .Items.Add("email-smtp.sa-east-1.amazonaws.com")
-            .Items.Add("email-smtp.us-gov-west-1.amazonaws.com")
-        End With
+        Dim dt As New DataTable
+        dt.Columns.AddRange(New DataColumn() {New DataColumn With {.ColumnName = "Endpoint", .DataType = GetType(String)} _
+                                                , New DataColumn With {.ColumnName = "Region", .DataType = GetType(String)} _
+                                                })
+
+        
+        dt.Rows.Add("Choose Region", "Choose Region")
+        dt.Rows.Add("email-smtp.us-east-1.amazonaws.com", "US-East-1")
+        dt.Rows.Add("email-smtp.us-east-2.amazonaws.com", "US-East-2")
+        dt.Rows.Add("email-smtp.us-west-1.amazonaws.com","US-West-1")
+        dt.Rows.Add("email-smtp.us-west-2.amazonaws.com", "US-West-2")                
+        dt.Rows.Add("email-smtp.eu-west-1.amazonaws.com", "EU-West-1")
+        dt.Rows.Add("email-smtp.eu-west-2.amazonaws.com", "EU-West-2")
+        dt.Rows.Add("email-smtp.eu-west-3.amazonaws.com", "EU-West-3")
+        dt.Rows.Add("email-smtp.eu-north-1.amazonaws.com", "EU-North-1")
+        dt.Rows.Add("email-smtp.eu-central-1.amazonaws.com", "EU-Central-1")
+        dt.Rows.Add("email-smtp.ap-northeast-1.amazonaws.com", "AP-NorthEast-1")
+        dt.Rows.Add("email-smtp.ap-northeast-2.amazonaws.com", "AP-NorthEast-2")
+        dt.Rows.Add("email-smtp.ap-northeast-3.amazonaws.com", "AP-NorthEast-3")                
+        dt.Rows.Add("email-smtp.ap-southeast-1.amazonaws.com", "AP-SouthEast-1")
+        dt.Rows.Add("email-smtp.ap-southeast-2.amazonaws.com", "AP-SouthEast-2")                
+        dt.Rows.Add("email-smtp.ap-south-1.amazonaws.com", "AP-South-1")
+        dt.Rows.Add("email-smtp.ca-central-1.amazonaws.com", "CA-Central-1")                
+        dt.Rows.Add("email-smtp.sa-east-1.amazonaws.com", "SA-East-1")
+        dt.Rows.Add("email-smtp.us-gov-west-1.amazonaws.com", "US-GOV-West-1")
+        
+        CbRegion.DataSource = dt        
+        CbRegion.DisplayMember = "Region"        
+        CbRegion.ValueMember = "Endpoint"    
         CbRegion.SelectedIndex = 0
         TxtBody.Text = "This is a Test"
         ButtonSearch.Visible = False
@@ -30,7 +38,7 @@ Public Class Form1
     Private Sub ButtonSend_Click(sender As Object, e As EventArgs) Handles ButtonSend.Click
         Dim username As String = TxtKey.Text
         Dim password As String = TxtSecret.Text
-        Dim host As String = CbRegion.SelectedItem
+        Dim host As String = CbRegion.SelectedValue
         Dim port As Integer = 587
         Dim From As String = TxtFrom.Text
         Dim sTo As String = TxtTo.Text
@@ -49,13 +57,13 @@ Public Class Form1
         If CheckEmailStrings(sTo, From, Subject, Body) > 0 Then
             Exit Sub
         End If
-        Dim mailMessage = New System.Net.Mail.MailMessage
+        Dim mailMessage = New Net.Mail.MailMessage
         mailMessage.From = New Net.Mail.MailAddress(From)
         mailMessage.To.Add(sTo)
         mailMessage.Subject = Subject
         mailMessage.Body = Body
         Try
-            Using client = New System.Net.Mail.SmtpClient(host, port)
+            Using client = New Net.Mail.SmtpClient(host, port)
                 client.Credentials = New System.Net.NetworkCredential(username, password)
                 client.EnableSsl = True
                 If txtAttachment.Text IsNot "" Then
